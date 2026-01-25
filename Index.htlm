@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.C.P. Foundation | Security & Crisis Prevention</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --bg-dark: #0f0f0f;
+            --text-light: #f4f4f4;
+            --gray: #888;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        header {
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .logo-text {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: 10px;
+            margin: 0;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-left: 4px solid var(--accent);
+        }
+
+        .card h3 {
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .quote {
+            text-align: center;
+            font-style: italic;
+            margin: 100px 0;
+            padding: 40px;
+            background: rgba(231, 76, 60, 0.05);
+            border-radius: 50px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #050505;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <p class="subtitle">Organisation Internationale de Soutien</p>
+        <h1 class="logo-text">S.C.P.</h1>
+        <p style="font-size: 1.5rem;">Security & Crisis Prevention Foundation</p>
+    </header>
+
+    <nav>
+        <a href="#about">À PROPOS</a>
+        <a href="#services">SERVICES</a>
+        <a href="#contact">CONTACT</a>
+    </nav>
+
+    <div class="container">
+        
+        <section id="about">
+            <h2>Prévenir l'imprévisible</h2>
+            <p>Fondée sur des principes de rigueur et de discrétion, la <strong>S.C.P. Foundation (Security & Crisis Prevention)</strong> est le leader mondial dans la gestion des situations complexes. Que ce soit pour des besoins logistiques, médicaux ou sécuritaires, nous intervenons là où les structures conventionnelles échouent.</p>
+        </section>
+
+        <section id="services" class="grid">
+            <div class="card">
+                <h3>🛡️ Sécurité Tactique</h3>
+                <p>Maintien de l'ordre sur sites privés, protection rapprochée et réponse rapide aux menaces civiles ou environnementales.</p>
+            </div>
+            <div class="card">
+                <h3>🚚 Logistique Sensible</h3>
+                <p>Transport et convoyage de biens à haute valeur ajoutée. Flotte blindée et protocoles de transfert sécurisés.</p>
+            </div>
+            <div class="card">
+                <h3>🚑 Unité Médicale</h3>
+                <p>Intervention d'urgence en milieu contaminé ou hostile. Recherche avancée en virologie et soins d'exception.</p>
+            </div>
+            <div class="card">
+                <h3>🌐 Gestion de Crise</h3>
+                <p>Analyse de risques et confinement de zones instables. Nous rétablissons l'ordre, peu importe le coût.</p>
+            </div>
+        </section>
+
+        <div class="quote">
+            "Dans un monde d'incertitudes, nous sommes la seule constante."
+        </div>
+
+        <section id="contact" style="text-align: center;">
+            <h2>Besoin d'intervention ?</h2>
+            <p><span class="status-dot"></span> Systèmes opérationnels - Prêts pour déploiement immédiat.</p>
+            <p style="color: var(--gray);">Contactez votre officier de liaison régional pour toute demande de contrat.</p>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Security & Crisis Prevention Foundation. Tous droits réservés.</p>
+        <p style="opacity: 0.3;">[ ACCÈS NIVEAU 1 REQUIS POUR PLUS DE DÉTAILS ]</p>
+    </footer>
+
+</body>
+</html>
