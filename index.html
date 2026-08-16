@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.C.P. | san cristina RP</title>
-    <link rel="icon" type="image/png" href="https://www.nicepng.com/png/full/224-2249471_scp-logo-png.png">
-    
+
+    <title>S.C.P. | Security & Crisis Prevention</title>
+
+    <link rel="icon" type="image/png"
+        href="https://www.nicepng.com/png/full/224-2249471_scp-logo-png.png">
+
     <style>
         :root {
-            --scp-navy: #0a192f;
+            --scp-dark: #0a192f;
             --scp-blue: #005a9e;
             --scp-light: #f4f7f9;
             --scp-text: #333;
-            --scp-accent: #b0b8c1;
+            --scp-gray: #b0b8c1;
             --scp-red: #8b0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         html {
@@ -21,409 +31,395 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: white;
             color: var(--scp-text);
-            background-color: #ffffff;
             line-height: 1.6;
         }
 
-        /* Navigation */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 10%;
-            background: white;
-            border-bottom: 1px solid #eee;
             position: sticky;
             top: 0;
             z-index: 1000;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 20px 10%;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e5e5;
         }
 
         .logo {
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: var(--scp-navy);
             display: flex;
             align-items: center;
             gap: 15px;
+
             text-decoration: none;
+            color: var(--scp-dark);
+
+            font-weight: 800;
+            letter-spacing: 2px;
         }
 
-        .logo-img {
-            height: 45px;
-            width: auto;
+        .logo img {
+            height: 50px;
         }
 
         .nav-links {
             display: flex;
-            align-items: center;
             gap: 30px;
-            font-size: 0.85rem;
+
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .nav-links a {
-            cursor: pointer;
-            transition: color 0.3s;
             text-decoration: none;
-            color: inherit;
+            color: var(--scp-text);
+            transition: .3s;
         }
 
         .nav-links a:hover {
             color: var(--scp-blue);
         }
 
-        .btn-portal {
-            background-color: var(--scp-navy);
+        .portal {
+            padding: 12px 20px;
+
+            background: var(--scp-dark);
+
             color: white !important;
-            padding: 10px 20px;
-            border-radius: 4px;
-            transition: background 0.3s ease !important;
+
+            border-radius: 5px;
         }
 
-        .btn-portal:hover {
-            background-color: var(--scp-blue) !important;
-        }
-
-        /* Hero Section */
         .hero {
-            position: relative;
-            padding: 160px 10%;
-            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), 
-                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            padding: 180px 10%;
+
+            color: white;
+
+            background:
+                linear-gradient(rgba(10, 25, 47, .85),
+                    rgba(10, 25, 47, .85)),
+                url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop");
+
             background-size: cover;
             background-position: center;
-            color: white;
-            text-align: left;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin: 0;
             max-width: 850px;
+
+            font-size: 60px;
+
             line-height: 1.1;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin-top: 20px;
-            opacity: 0.9;
+            max-width: 700px;
+
+            margin-top: 25px;
+
+            font-size: 20px;
         }
 
-        /* Mission Pillars */
-        .mission-pillars {
+        .pillars {
             display: flex;
-            background: var(--scp-navy);
+
+            gap: 30px;
+
+            padding: 50px 10%;
+
+            background: var(--scp-dark);
+
             color: white;
-            padding: 40px 10%;
-            justify-content: space-between;
-            gap: 20px;
-            text-align: center;
         }
 
         .pillar {
             flex: 1;
-            padding: 20px;
+            text-align: center;
         }
 
         .pillar h2 {
             color: var(--scp-blue);
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+
+            margin-bottom: 15px;
         }
 
-        /* Expertise Grid */
-        .expertise-section {
-            padding: 80px 10%;
-            background: var(--scp-light);
+        .section {
+            padding: 100px 10%;
+        }
+
+        .section-title {
             text-align: center;
+
+            margin-bottom: 20px;
+
+            font-size: 40px;
+
+            color: var(--scp-dark);
         }
 
-        .expertise-grid {
+        .section-subtitle {
+            text-align: center;
+
+            max-width: 800px;
+
+            margin: auto auto 50px;
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
             gap: 30px;
-            margin-top: 50px;
         }
 
-        .service-card {
-            background: white;
+        .card {
             overflow: hidden;
-            border-bottom: 4px solid var(--scp-blue);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            text-align: left;
+
+            background: white;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+
+            border-bottom: 5px solid var(--scp-blue);
+
+            transition: .3s;
         }
 
-        .service-card:hover {
+        .card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
 
-        .service-image {
+        .card img {
             width: 100%;
-            height: 200px;
+
+            height: 220px;
+
             object-fit: cover;
+
             filter: grayscale(60%);
-            transition: 0.5s;
         }
 
-        .service-card:hover .service-image {
-            filter: grayscale(0%);
-        }
-
-        .service-content {
+        .card-content {
             padding: 25px;
         }
 
-        .service-content h3 {
-            margin-top: 0;
-            color: var(--scp-navy);
-            font-size: 1.25rem;
-        }
+        .card-content h3 {
+            margin-bottom: 10px;
 
-        /* Stats Section */
-        .stats-banner {
-            background: white;
-            padding: 60px 10%;
+            color: var(--scp-dark);
+        }
+                .stats {
             display: flex;
             justify-content: space-around;
+
+            padding: 70px 10%;
+
+            background: var(--scp-light);
+
             text-align: center;
-            border-bottom: 1px solid #eee;
         }
 
-        .stat-item h3 {
-            font-size: 2.5rem;
-            color: var(--scp-navy);
-            margin-bottom: 5px;
+        .stat h3 {
+            font-size: 45px;
+
+            color: var(--scp-dark);
         }
 
-        .stat-item p {
+        .stat p {
             text-transform: uppercase;
-            font-size: 0.8rem;
-            color: var(--scp-accent);
-            font-weight: bold;
+
+            color: var(--scp-gray);
+
+            font-size: 13px;
+
+            font-weight: 700;
         }
 
-        /* Ethics / About */
         .about {
-            padding: 100px 10%;
             display: flex;
+
             align-items: center;
+
             gap: 80px;
-            max-width: 1300px;
-            margin: 0 auto;
         }
 
-        .about-text h2 {
-            font-size: 2.2rem;
-            color: var(--scp-navy);
+        .about img {
+            max-width: 500px;
+
+            border-radius: 10px;
         }
 
-        .highlight {
-            color: var(--scp-blue);
-            font-weight: bold;
-        }
-
-        /* Footer */
         footer {
-            background: var(--scp-navy);
+            padding: 70px 10% 30px;
+
+            background: var(--scp-dark);
+
             color: white;
-            padding: 60px 10% 30px;
-            font-size: 0.9rem;
         }
 
         .footer-grid {
             display: grid;
+
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
             gap: 50px;
-            margin-bottom: 40px;
         }
 
         .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px;
+
             padding-top: 30px;
+
+            border-top: 1px solid rgba(255, 255, 255, .1);
+
             text-align: center;
-            color: var(--scp-accent);
-            font-size: 0.8rem;
         }
 
-        .warning-text {
+        .warning {
+            margin-top: 20px;
+
             color: var(--scp-red);
+
+            font-size: 12px;
+
             font-weight: bold;
-            font-size: 0.7rem;
-            margin-top: 10px;
         }
     </style>
 </head>
+
 <body>
 
-<nav>
-    <a href="#" class="logo">
-        <img src="https://www.nicepng.com/png/full/224-2249471_scp-logo-png.png" alt="Logo SCP" class="logo-img">
-        <span>Security & Crisis Prevention foundation</span>
-    </a>
-    <div class="nav-links">
-        <a href="#expertise">Solutions</a>
-        <a href="#ethique">Conformité</a>
-        <a href="#contact">Contact</a>
-        <a href="https://scp-data-link.base44.app/" class="btn-portal">Espace Personnel</a>
-    </div>
-</nav>
+    <nav>
 
-<section class="hero">
-    <h1>Assurer la stabilité d'un monde en mutation.</h1>
-    <p>S.C.P. (Security & Crisis Prevention) est une organisation logistique internationale mandatée pour la gestion des risques majeurs et la préservation des infrastructures civiles.</p>
-</section>
+        <a class="logo" href="#">
 
-<div class="mission-pillars">
-    <div class="pillar">
-        <h2>SURVEILLER</h2>
-        <p>Identifier les failles systémiques et les risques émergents pour la sécurité publique.</p>
-    </div>
-    <div class="pillar">
-        <h2>ATTÉNUER</h2>
-        <p>Neutraliser les dangers via des protocoles d'isolation rigoureux et des solutions durables.</p>
-    </div>
-    <div class="pillar">
-        <h2>PRÉSERVER</h2>
-        <p>Garantir la continuité des activités humaines face aux crises environnementales et technologiques.</p>
-    </div>
-</div>
+            <img src="https://www.nicepng.com/png/full/224-2249471_scp-logo-png.png">
 
-<div class="stats-banner">
-    <div class="stat-item">
-        <h3>124</h3>
-        <p>Centres d'Opérations</p>
-    </div>
-    <div class="stat-item">
-        <h3>45k+</h3>
-        <p>Spécialistes Terrain</p>
-    </div>
-    <div class="stat-item">
-        <h3>24/7</h3>
-        <p>Gestion de Crise</p>
-    </div>
-    <div class="stat-item">
-        <h3>0</h3>
-        <p>Incidents Critiques Non-Résolus</p>
-    </div>
-</div>
+            <span>Security & Crisis Prevention</span>
 
-<section id="expertise" class="expertise-section">
-    <h2 style="color: var(--scp-navy); font-size: 2.2rem;">Domaines d'Intervention</h2>
-    <p>Nos divisions spécialisées déploient des solutions de haute technologie pour la sécurité des secteurs clés.</p>
+        </a>
 
-    <div class="expertise-grid">
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1580674684081-7617fbf3d745?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Logistique">
-            <div class="service-content">
-                <h3>Logistique Sécurisée</h3>
-                <p>Déploiement rapide de ressources et transport protégé de matériaux sensibles en environnements complexes.</p>
-            </div>
+        <div class="nav-links">
+
+            <a href="#services">Services</a>
+
+            <a href="#about">À propos</a>
+
+            <a href="#recrutement">Carrières</a>
+
+            <a href="#contact">Contact</a>
+
+            <a class="portal" href="#">Portail sécurisé</a>
+
         </div>
 
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Biohazard">
-            <div class="service-content">
-                <h3>Réponse Médicale d'Urgence</h3>
-                <p>Laboratoires de haute sécurité et unités d'intervention rapide pour la gestion des risques sanitaires.</p>
-            </div>
-        </div>
+    </nav>
 
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Cyber">
-            <div class="service-content">
-                <h3>Intégrité Numérique</h3>
-                <p>Protection des données critiques et surveillance algorithmique contre les menaces informationnelles.</p>
-            </div>
-        </div>
+    <section class="hero">
 
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Ingénierie">
-            <div class="service-content">
-                <h3>Infrastructures de Protection</h3>
-                <p>Conception et maintenance d'unités de stockage sécurisées pour les actifs à haute valeur stratégique.</p>
-            </div>
-        </div>
+        <h1>
+            Assurer la stabilité d'un monde en mutation.
+        </h1>
 
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Tactique">
-            <div class="service-content">
-                <h3>Intelligence Tactique</h3>
-                <p>Analyse de données en temps réel et surveillance avancée pour anticiper les menaces asymétriques mondiales.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Energie">
-            <div class="service-content">
-                <h3>Sécurité Énergétique</h3>
-                <p>Sécurisation des infrastructures critiques et prévention des pannes systémiques sur les réseaux nationaux.</p>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Confinement">
-            <div class="service-content">
-                <h3>Gestion de Confinement</h3>
-                <p>Protocoles d'isolation pour substances instables et gestion des risques de contamination environnementale.</p>
-            </div>
-        </div>
-
-<div class="service-card">
-            <img src="https://img.freepik.com/photos-gratuite/portrait-agent-securite-masculin-station-radio-ecrans-camera_23-2150368714.jpg" class="service-image" alt="Sécurité Opérationnelle">
-            <div class="service-content">
-                <h3>Sécurité Opérationnelle</h3>
-                <p>Déploiement d'unités d'élite et de systèmes de surveillance active pour la protection périmétrale des sites à haute sensibilité.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="ethique" class="about">
-    <div class="about-text">
-        <h2>Gouvernance et Responsabilité</h2>
         <p>
-            Nos interventions suivent des protocoles internationaux stricts garantissant une <strong>transparence opérationnelle</strong> envers nos partenaires institutionnels.
+            S.C.P. est une organisation internationale spécialisée dans la
+            gestion des crises, la protection des infrastructures critiques
+            et le développement de solutions de sécurité avancées.
         </p>
-        <p>
-            Le <span class="highlight">Département de Conformité</span> supervise chaque mission pour s'assurer du respect des normes éthiques et de la réduction de l'impact social des crises.
+
+    </section>
+
+    <section class="pillars">
+
+        <div class="pillar">
+
+            <h2>SURVEILLER</h2>
+
+            <p>
+                Identifier les menaces émergentes et anticiper les risques.
+            </p>
+
+        </div>
+
+        <div class="pillar">
+
+            <h2>CONFINER</h2>
+
+            <p>
+                Isoler les situations critiques grâce à des protocoles
+                spécialisés.
+            </p>
+
+        </div>
+
+        <div class="pillar">
+
+            <h2>PRÉSERVER</h2>
+
+            <p>
+                Garantir la continuité des infrastructures essentielles.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <h3>124</h3>
+
+            <p>Centres d'opérations</p>
+
+        </div>
+
+        <div class="stat">
+
+            <h3>45K+</h3>
+
+            <p>Personnel spécialisé</p>
+
+        </div>
+
+        <div class="stat">
+
+            <h3>24/7</h3>
+
+            <p>Intervention mondiale</p>
+
+        </div>
+
+        <div class="stat">
+
+            <h3>0</h3>
+
+            <p>Crises non résolues</p>
+
+        </div>
+
+    </section>
+
+    <section class="section" id="services">
+
+        <h2 class="section-title">
+            Domaines d'intervention
+        </h2>
+
+        <p class="section-subtitle">
+
+            Nos divisions spécialisées assurent la protection des secteurs
+            stratégiques nécessitant des protocoles renforcés.
+
         </p>
-    </div>
-    <div class="about-image">
-        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1000&auto=format&fit=crop" alt="Laboratoire Haute Sécurité" style="max-width: 100%; border-radius: 8px;">
-    </div>
-</section>
 
-<footer id="contact">
-    <div class="footer-grid">
-        <div>
-            <h4>Le Groupe S.C.P.</h4>
-            <p>Prestataire de services de sécurité globale agissant sous contrats gouvernementaux spécialisés. Notre priorité est la résilience collective.</p>
-        </div>
-        <div>
-            <h4>Navigation</h4>
-            <p>san cristina RP<br>Rapports d'Activité Annuel<br>Carrières et Recrutement</p>
-        </div>
-        <div>
-            <h4>Contact Corporate</h4>
-            <p><strong>Bureaux :</strong> Localisations confidentielles<br>
-               <strong>Email :</strong> contact@security-crisis-prevention.com<br>
-               <strong>Assistance :</strong> Ligne prioritaire 24/7</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        &copy; 2026 S.C.P. | Security & Crisis Prevention - Division Communication Corporate. <br>
-        <em>"La sécurité est une vigilance de chaque instant."</em>
-        <p class="warning-text">CONFIDENTIALITÉ : L'accès à ce site est surveillé. Les protocoles de sécurité des données sont actifs.</p>
-    </div>
-</footer>
-
-</body>
-</html>
+        <div class="grid">
+            
