@@ -5,15 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.C.P. - Security & Crisis Prevention</title>
     <link rel="icon" type="image/png" href="https://www.nicepng.com/png/full/224-2249471_scp-logo-png.png">
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&family=Roboto+Mono:wght@500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --scp-navy: #0a192f;
-            --scp-blue: #005a9e;
+            --scp-navy-2: #123258;
+            --scp-blue: #335168;
+            --scp-cyan: #4ea8de;
             --scp-light: #f4f7f9;
             --scp-text: #333;
             --scp-accent: #b0b8c1;
             --scp-red: #8b0000;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         html {
@@ -21,12 +31,53 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
             color: var(--scp-text);
             background-color: #ffffff;
-            line-height: 1.6;
+            line-height: 1.65;
         }
+
+        h1, h2, h3, h4 {
+            font-family: 'Oswald', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Panneau technique réutilisable (grille + dégradé) */
+        .tech-panel {
+            position: relative;
+            overflow: hidden;
+            background:
+                repeating-linear-gradient(0deg, rgba(78,168,222,0.08) 0, rgba(78,168,222,0.08) 1px, transparent 1px, transparent 24px),
+                repeating-linear-gradient(90deg, rgba(78,168,222,0.08) 0, rgba(78,168,222,0.08) 1px, transparent 1px, transparent 24px),
+                linear-gradient(135deg, var(--scp-navy), var(--scp-navy-2));
+        }
+
+        /* Coins façon "HUD" */
+        .hud-frame::before, .hud-frame::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--scp-cyan);
+            opacity: 0.85;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .hud-frame::before { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+        .hud-frame::after { bottom: 8px; right: 8px; border-left: none; border-top: none; }
 
         /* Navigation */
         nav {
@@ -39,10 +90,16 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            transition: box-shadow 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 6px 24px rgba(10, 25, 47, 0.08);
         }
 
         .logo {
-            font-weight: 800;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
             letter-spacing: 2px;
             color: var(--scp-navy);
             display: flex;
@@ -54,6 +111,7 @@
         .logo-img {
             height: 45px;
             width: auto;
+            flex-shrink: 0;
         }
 
         .nav-links {
@@ -74,7 +132,7 @@
         }
 
         .nav-links a:hover {
-            color: var(--scp-blue);
+            color: var(--scp-cyan);
         }
 
         .btn-portal {
@@ -92,27 +150,154 @@
         /* Hero Section */
         .hero {
             position: relative;
-            padding: 160px 10%;
-            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), 
-                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+            overflow: hidden;
+            padding: 170px 10% 130px;
+            background: linear-gradient(135deg, #050d1a 0%, #0a192f 55%, #0d2748 100%);
             color: white;
             text-align: left;
         }
 
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(78, 168, 222, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(78, 168, 222, 0.06) 1px, transparent 1px);
+            background-size: 46px 46px;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -220px;
+            right: -160px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(51, 81, 104, 0.5), transparent 70%);
+            z-index: 0;
+        }
+
+        .hero-radar {
+            position: absolute;
+            top: 40px;
+            right: 6%;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            border: 1px solid rgba(78, 168, 222, 0.25);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-radar::before {
+            content: '';
+            position: absolute;
+            inset: 24px;
+            border-radius: 50%;
+            border: 1px solid rgba(78, 168, 222, 0.2);
+        }
+
+        .hero-radar::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, rgba(78, 168, 222, 0.55), transparent 35%);
+            animation: radar-spin 4.5s linear infinite;
+        }
+
+        @keyframes radar-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 900px) {
+            .hero-radar { display: none; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.78rem;
+            color: var(--scp-cyan);
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
         .hero h1 {
             font-size: 3.5rem;
+            font-weight: 600;
             margin: 0;
             max-width: 850px;
-            line-height: 1.1;
+            line-height: 1.15;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin-top: 20px;
+            font-size: 1.15rem;
+            max-width: 620px;
+            margin-top: 22px;
             opacity: 0.9;
+        }
+
+        .btn-hero {
+            display: inline-block;
+            margin-top: 40px;
+            background: white;
+            color: var(--scp-navy);
+            padding: 15px 32px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+
+        .btn-hero:hover {
+            background: var(--scp-cyan);
+            color: white;
+        }
+
+        .hero-status {
+            margin-top: 45px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            color: #9fb8d4;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+            margin-right: 6px;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6); }
+            70% { box-shadow: 0 0 0 8px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+
+        .status-sep {
+            opacity: 0.35;
         }
 
         /* Mission Pillars */
@@ -120,7 +305,7 @@
             display: flex;
             background: var(--scp-navy);
             color: white;
-            padding: 40px 10%;
+            padding: 50px 10%;
             justify-content: space-between;
             gap: 20px;
             text-align: center;
@@ -129,52 +314,126 @@
         .pillar {
             flex: 1;
             padding: 20px;
+            border-left: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .pillar:first-child {
+            border-left: none;
+        }
+
+        .pillar-icon {
+            color: var(--scp-cyan);
+            margin-bottom: 14px;
         }
 
         .pillar h2 {
-            color: var(--scp-blue);
-            font-size: 1.5rem;
+            color: white;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
             margin-bottom: 10px;
+        }
+
+        .pillar p {
+            color: #c3ccd6;
+            font-size: 0.95rem;
         }
 
         /* Expertise Grid */
         .expertise-section {
-            padding: 80px 10%;
+            padding: 90px 10%;
             background: var(--scp-light);
             text-align: center;
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 35px;
+        }
+
+        .filter-tab {
+            background: white;
+            border: 1px solid #dde3e8;
+            color: var(--scp-navy);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .filter-tab:hover {
+            border-color: var(--scp-cyan);
+            color: var(--scp-blue);
+        }
+
+        .filter-tab.active {
+            background: var(--scp-navy);
+            border-color: var(--scp-navy);
+            color: white;
         }
 
         .expertise-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin-top: 50px;
+            margin-top: 45px;
         }
 
         .service-card {
             background: white;
             overflow: hidden;
-            border-bottom: 4px solid var(--scp-blue);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(10, 25, 47, 0.08);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
             text-align: left;
+            cursor: pointer;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(10, 25, 47, 0.16);
         }
 
-        .service-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            filter: grayscale(60%);
-            transition: 0.5s;
+        .service-media {
+            position: relative;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .service-card:hover .service-image {
-            filter: grayscale(0%);
+        .service-icon {
+            color: var(--scp-cyan);
+            filter: drop-shadow(0 0 10px rgba(78, 168, 222, 0.35));
+            transition: transform 0.5s ease, filter 0.5s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.12);
+            filter: drop-shadow(0 0 18px rgba(78, 168, 222, 0.6));
+        }
+
+        .service-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(10, 25, 47, 0.85);
+            color: white;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 11px;
+            border-radius: 4px;
+            font-weight: 600;
+            z-index: 2;
         }
 
         .service-content {
@@ -184,23 +443,26 @@
         .service-content h3 {
             margin-top: 0;
             color: var(--scp-navy);
-            font-size: 1.25rem;
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
-        .temporary-section {
-            margin-top: 30px;
-            padding: 20px;
-            border: 2px dashed var(--scp-accent);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.5);
-        }
-
-        .temporary-section-title {
-            color: var(--scp-accent);
-            font-size: 0.9rem;
+        .card-more {
+            margin-top: 15px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--scp-blue);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.25s ease;
+        }
+
+        .service-card:hover .card-more {
+            gap: 10px;
         }
 
         /* Stats Section */
@@ -213,26 +475,44 @@
             border-bottom: 1px solid #eee;
         }
 
+        .stat-item {
+            padding: 0 20px;
+            border-left: 1px solid #eee;
+        }
+
+        .stat-item:first-child {
+            border-left: none;
+        }
+
         .stat-item h3 {
             font-size: 2.5rem;
             color: var(--scp-navy);
             margin-bottom: 5px;
+            font-weight: 600;
         }
 
         .stat-item p {
+            font-family: 'Roboto Mono', monospace;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             color: var(--scp-accent);
-            font-weight: bold;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* Personnel Section */
+        .table-wrap {
+            overflow-x: auto;
+            margin-top: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(10, 25, 47, 0.06);
+        }
+
         .personnel-table {
             width: 100%;
+            min-width: 640px;
             border-collapse: collapse;
-            margin-top: 40px;
             background: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
         .personnel-table th, .personnel-table td {
@@ -245,94 +525,34 @@
             background-color: var(--scp-navy);
             color: white;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 1px;
+            font-weight: 600;
         }
 
-        .personnel-table tr:hover {
+        .personnel-table tbody tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        .personnel-table tbody tr:hover {
             background-color: var(--scp-light);
         }
 
-        /* Operations Section */
-        .operations-container {
-            padding: 80px 10%;
-            background: white;
-        }
-
-        .operations-container h2 {
-            font-size: 2.2rem;
-            color: var(--scp-navy);
-            margin-bottom: 40px;
-            text-align: center;
-        }
-        
-        .operations-block {
-            margin-bottom: 60px;
-        }
-
-        .operations-block h3 {
-            color: var(--scp-blue);
-            font-size: 1.5rem;
-            border-bottom: 2px solid var(--scp-light);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* Vehicles Placeholders */
-        .vehicle-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .vehicle-card {
-            background: var(--scp-light);
-            border: 1px solid #ddd;
+        .rank-pill {
+            display: inline-block;
+            padding: 5px 12px;
             border-radius: 4px;
-            padding: 20px;
-            text-align: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
-        .vehicle-placeholder {
-            width: 100%;
-            height: 120px;
-            background: #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            margin-bottom: 15px;
-            font-style: italic;
-            font-size: 0.9rem;
-        }
-
-        .vehicle-name {
-            font-weight: bold;
-            color: var(--scp-navy);
-            font-size: 1.1rem;
-        }
-
-        /* Video Container */
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 ratio */
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: #000;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
+        .rank-5 { background: var(--scp-red); color: white; }
+        .rank-4 { background: var(--scp-navy); color: white; }
+        .rank-3 { background: var(--scp-blue); color: white; }
+        .rank-2 { background: #5c7690; color: white; }
+        .rank-1 { background: #dde3e8; color: var(--scp-navy); }
 
         /* Ethics / About */
         .about {
@@ -347,11 +567,181 @@
         .about-text h2 {
             font-size: 2.2rem;
             color: var(--scp-navy);
+            font-weight: 600;
         }
 
         .highlight {
             color: var(--scp-blue);
             font-weight: bold;
+        }
+
+        .about-visual {
+            flex: 1;
+            min-height: 360px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-seal {
+            color: var(--scp-cyan);
+            filter: drop-shadow(0 0 22px rgba(78, 168, 222, 0.35));
+        }
+
+        .classified-stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            border: 2px solid var(--scp-red);
+            color: var(--scp-red);
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            transform: rotate(6deg);
+            border-radius: 3px;
+            z-index: 3;
+        }
+
+        /* Réhabilitation / Classe D */
+        .rehab-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .rehab-stat {
+            background: var(--scp-light);
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .rehab-stat h3 {
+            color: var(--scp-navy);
+            font-size: 1.8rem;
+            margin: 0 0 5px;
+        }
+
+        .rehab-stat p {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--scp-accent);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Modal de détails */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 13, 26, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            animation: modal-in 0.25s ease;
+        }
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-media {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-icon {
+            color: var(--scp-cyan);
+            filter: drop-shadow(0 0 16px rgba(78, 168, 222, 0.4));
+        }
+
+        .modal-body {
+            padding: 30px 35px 40px;
+        }
+
+        .modal-tag {
+            display: inline-block;
+            background: var(--scp-navy);
+            color: white;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 12px;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .modal-body h2 {
+            color: var(--scp-navy);
+            margin: 0 0 15px;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .modal-body p {
+            margin-bottom: 14px;
+        }
+
+        .modal-body ul {
+            padding-left: 20px;
+            line-height: 1.9;
+            margin-bottom: 14px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            font-size: 1.3rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--scp-navy);
+            transition: 0.2s;
+            z-index: 3;
+        }
+
+        .modal-close:hover {
+            background: white;
+            transform: scale(1.1);
         }
 
         /* Footer */
@@ -360,6 +750,24 @@
             color: white;
             padding: 60px 10% 30px;
             font-size: 0.9rem;
+            border-top: 3px solid var(--scp-cyan);
+        }
+
+        footer h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            color: var(--scp-cyan);
+        }
+
+        .footer-logo {
+            height: 22px;
+            width: auto;
+            flex-shrink: 0;
         }
 
         .footer-grid {
@@ -383,11 +791,21 @@
             font-size: 0.7rem;
             margin-top: 10px;
         }
+
+        @media (max-width: 800px) {
+            .hero h1 { font-size: 2.4rem; }
+            .mission-pillars { flex-direction: column; }
+            .pillar { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+            .pillar:first-child { border-top: none; }
+            .stats-banner { flex-wrap: wrap; gap: 30px; }
+            .stat-item { border-left: none; }
+            .about { flex-direction: column; gap: 40px; }
+        }
     </style>
 </head>
 <body>
 
-<nav>
+<nav id="mainNav">
     <a href="#" class="logo">
         <img src="https://www.nicepng.com/png/full/224-2249471_scp-logo-png.png" alt="Logo SCP" class="logo-img">
         <span>Security & Crisis Prevention foundation</span>
@@ -395,329 +813,347 @@
     <div class="nav-links">
         <a href="#expertise">Solutions</a>
         <a href="#personnel">Effectifs</a>
-        <a href="#operations">Déploiement</a>
         <a href="#ethique">Conformité</a>
         <a href="https://scp-data-link.base44.app/" class="btn-portal">Espace Personnel</a>
     </div>
 </nav>
 
 <section class="hero">
-    <h1>Assurer la stabilité d'un monde en mutation.</h1>
-    <p>S.C.P. (Security & Crisis Prevention) est une organisation internationale spécialisée dans la logistique sécurisée, la réponse médicale d'urgence et la protection des intérêts privés et stratégiques.</p>
+    <div class="hero-radar" aria-hidden="true"></div>
+    <div class="hero-content">
+        <div class="hero-eyebrow">Organisation internationale — Document public</div>
+        <h1>Assurer la stabilité d'un monde en mutation.</h1>
+        <p>S.C.P. (Security & Crisis Prevention) est une organisation internationale spécialisée dans la logistique sécurisée, la réponse médicale d'urgence et la protection des intérêts privés et stratégiques.</p>
+        <a href="#expertise" class="btn-hero">Découvrir nos activités ↓</a>
+        <div class="hero-status">
+            <span><span class="status-dot"></span>Système opérationnel</span>
+            <span class="status-sep">|</span>
+            <span>8 divisions actives</span>
+            <span class="status-sep">|</span>
+            <span>Surveillance 24/7</span>
+        </div>
+    </div>
 </section>
 
 <div class="mission-pillars">
-    <div class="pillar">
-        <h2>SURVEILLER</h2>
-        <p>Identifier les failles systémiques et les risques émergents pour la sécurité globale.</p>
+    <div class="pillar reveal">
+        <div class="pillar-icon">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+        </div>
+        <h2>SÉCURISER</h2>
+        <p>Protéger les actifs, sites et personnels de nos partenaires par des dispositifs adaptés à chaque niveau de risque.</p>
     </div>
-    <div class="pillar">
-        <h2>CONFINER</h2>
-        <p>Neutraliser les dangers biologiques, chimiques et physiques via des protocoles rigoureux.</p>
+    <div class="pillar reveal">
+        <div class="pillar-icon">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        </div>
+        <h2>CONTENIR</h2>
+        <p>Circonscrire rapidement toute situation de crise avant qu'elle ne compromette la stabilité de nos clients.</p>
     </div>
-    <div class="pillar">
-        <h2>PRÉSERVER</h2>
-        <p>Garantir la continuité des activités de nos clients face aux crises majeures.</p>
+    <div class="pillar reveal">
+        <div class="pillar-icon">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h2>PRÉVENIR</h2>
+        <p>Anticiper les menaces émergentes grâce à une veille constante et des protocoles d'intervention éprouvés.</p>
     </div>
 </div>
 
 <div class="stats-banner">
-    <div class="stat-item">
-        <h3>4</h3>
+    <div class="stat-item reveal">
+        <h3>8</h3>
         <p>Divisions Opérationnelles</p>
     </div>
-    <div class="stat-item">
+    <div class="stat-item reveal">
         <h3>100%</h3>
         <p>Discrétion Assurée</p>
     </div>
-    <div class="stat-item">
+    <div class="stat-item reveal">
         <h3>24/7</h3>
         <p>Gestion de Crise</p>
     </div>
-    <div class="stat-item">
+    <div class="stat-item reveal">
         <h3>0</h3>
         <p>Faille de Confinement</p>
     </div>
 </div>
 
 <section id="expertise" class="expertise-section">
-    <h2 style="color: var(--scp-navy); font-size: 2.2rem;">Nos Pôles d'Expertise</h2>
-    <p>Nos divisions spécialisées déploient des solutions de haute technologie adaptées aux situations les plus complexes.</p>
+    <h2 class="reveal" style="color: var(--scp-navy); font-size: 2.2rem;">Nos Pôles d'Expertise</h2>
+    <p class="reveal">Nos divisions spécialisées déploient des solutions de haute technologie adaptées aux situations les plus complexes.</p>
+
+    <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">Tous</button>
+        <button class="filter-tab" data-filter="Logistique">Logistique</button>
+        <button class="filter-tab" data-filter="Sécurité">Sécurité</button>
+        <button class="filter-tab" data-filter="Renseignement">Renseignement</button>
+        <button class="filter-tab" data-filter="Confinement">Confinement</button>
+        <button class="filter-tab" data-filter="Infrastructure">Infrastructure</button>
+        <button class="filter-tab" data-filter="Réhabilitation">Réhabilitation</button>
+    </div>
 
     <div class="expertise-grid">
         <!-- 1. Logistique Sécurisée -->
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1580674684081-7617fbf3d745?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Logistique">
+        <div class="service-card reveal" data-index="0" data-category="Logistique">
+            <div class="service-media tech-panel hud-frame">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="58" height="58" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="10"/><path d="M15 10h4l3 3v3h-7z"/><circle cx="6" cy="19" r="1.8"/><circle cx="17.5" cy="19" r="1.8"/></svg>
+                </div>
+                <span class="service-badge">Logistique</span>
+            </div>
             <div class="service-content">
                 <h3>1. Logistique Sécurisée</h3>
                 <p>Déploiement rapide, transport par convoi blindé et transfert protégé de matériaux sensibles, de fonds ou d'actifs critiques.</p>
+                <div class="card-more">En savoir plus →</div>
             </div>
         </div>
 
         <!-- 2. Hazmat / CDC -->
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Biohazard">
+        <div class="service-card reveal" data-index="1" data-category="Confinement">
+            <div class="service-media tech-panel hud-frame">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="58" height="58" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6"/><path d="M10 2v6.5L4.5 18a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 8.5V2"/><path d="M7.5 15h9"/></svg>
+                </div>
+                <span class="service-badge">Confinement</span>
+            </div>
             <div class="service-content">
-                <h3>2. Hazmat & Risques Biologiques</h3>
+                <h3>2. Epsilon-9 « Immuno-Suppressants »</h3>
                 <p>Gestion type CDC : laboratoires mobiles, confinement biologique, gestion de contamination et réponse médicale d'urgence.</p>
+                <div class="card-more">En savoir plus →</div>
             </div>
         </div>
 
         <!-- 3. Protection Numérique -->
-        <div class="service-card">
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Cyber">
+        <div class="service-card reveal" data-index="2" data-category="Renseignement">
+            <div class="service-media tech-panel hud-frame">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="58" height="58" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.3 11V9.3a1.7 1.7 0 0 1 3.4 0V11"/></svg>
+                </div>
+                <span class="service-badge">Renseignement</span>
+            </div>
             <div class="service-content">
-                <h3>3. Protection Numérique</h3>
+                <h3>3. Mu-4 « Debuggers »</h3>
                 <p>Cybersécurité avancée, protection des données stratégiques et surveillance algorithmique contre les menaces virtuelles.</p>
+                <div class="card-more">En savoir plus →</div>
             </div>
         </div>
 
-        <!-- 4. Sécurité Privée -->
-        <div class="service-card">
-            <img src="https://img.freepik.com/photos-gratuite/portrait-agent-securite-masculin-station-radio-ecrans-camera_23-2150368714.jpg" class="service-image" alt="Sécurité Privée">
+        <!-- 4. Nu-7 "Hammer Down" -->
+        <div class="service-card reveal" data-index="3" data-category="Sécurité">
+            <div class="service-media tech-panel hud-frame">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="58" height="58" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-3 3-4-4z"/><path d="M14 6L3 17l3 3 11-11z"/></svg>
+                </div>
+                <span class="service-badge">Sécurité</span>
+            </div>
             <div class="service-content">
-                <h3>4. Sécurité Privée</h3>
+                <h3>4. Nu-7 « Hammer Down »</h3>
                 <p>Protection rapprochée VIP, sécurisation périmétrique de sites sensibles et déploiement d'agents hautement qualifiés.</p>
+                <div class="card-more">En savoir plus →</div>
+            </div>
+        </div>
+
+        <!-- 5. Réhabilitation Comportementale (Classe D) -->
+        <div class="service-card reveal" data-index="4" data-category="Réhabilitation">
+            <div class="service-media tech-panel hud-frame">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="58" height="58" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="15" r="3.5"/><circle cx="17.5" cy="15" r="3.5"/><path d="M6.5 11.5V7a1.5 1.5 0 0 1 1.5-1.5h8A1.5 1.5 0 0 1 17.5 7v4.5"/></svg>
+                </div>
+                <span class="service-badge">Réhabilitation</span>
+            </div>
+            <div class="service-content">
+                <h3>5. Réhabilitation Comportementale</h3>
+                <p>Partenariat pénitentiaire privé : détention sécurisée et programme de réinsertion pour notre personnel "Classe D".</p>
+                <div class="card-more">En savoir plus →</div>
+            </div>
+        </div>
+
+        <!-- 6. Intelligence Tactique -->
+        <div class="service-card reveal" data-index="5" data-category="Renseignement">
+            <div class="service-media tech-panel hud-frame">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="58" height="58" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>
+                </div>
+                <span class="service-badge">Renseignement</span>
+            </div>
+            <div class="service-content">
+                <h3>6. Iota-10</h3>
+                <p>Analyse de données en temps réel et surveillance pour anticiper les menaces asymétriques.</p>
+                <div class="card-more">En savoir plus →</div>
+            </div>
+        </div>
+
+        <!-- 7. Epsilon-11 "Nine-Tailed Fox" -->
+        <div class="service-card reveal" data-index="6" data-category="Infrastructure">
+            <div class="service-media tech-panel hud-frame">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="58" height="58" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M12 8l1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4z"/></svg>
+                </div>
+                <span class="service-badge">Infrastructure</span>
+            </div>
+            <div class="service-content">
+                <h3>7. Epsilon-11 « Nine-Tailed Fox »</h3>
+                <p>Force principale de protection des sites stratégiques et de réponse rapide sur l'ensemble de nos infrastructures.</p>
+                <div class="card-more">En savoir plus →</div>
+            </div>
+        </div>
+
+        <!-- 8. Sigma-9 "Valkyrie" -->
+        <div class="service-card reveal" data-index="7" data-category="Confinement">
+            <div class="service-media tech-panel hud-frame">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="58" height="58" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c-2 3-5 4-9 3 2 5 6 7 9 8v-2"/><path d="M12 4c2 3 5 4 9 3-2 5-6 7-9 8v-2"/></svg>
+                </div>
+                <span class="service-badge">Confinement</span>
+            </div>
+            <div class="service-content">
+                <h3>8. Sigma-9 « Valkyrie »</h3>
+                <p>Protocoles d'isolation stricts pour anomalies instables ou matériaux non-identifiés.</p>
+                <div class="card-more">En savoir plus →</div>
             </div>
         </div>
     </div>
-
-    <!-- DÉBUT DE LA SECTION TEMPORAIRE - FACILE À RETIRER -->
-    <div id="section-temporaire-services" class="temporary-section">
-        <div class="temporary-section-title">--- Division Auxiliaire (Temporaire) ---</div>
-        <div class="expertise-grid" style="margin-top: 10px;">
-            
-            <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Tactique">
-                <div class="service-content">
-                    <h3>5. Intelligence Tactique</h3>
-                    <p>Analyse de données en temps réel et surveillance pour anticiper les menaces asymétriques.</p>
-                </div>
-            </div>
-
-            <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Ingénierie">
-                <div class="service-content">
-                    <h3>6. Infrastructures Stratégiques</h3>
-                    <p>Conception et maintenance d'unités de stockage sécurisées à haute résistance.</p>
-                </div>
-            </div>
-
-            <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=800&auto=format&fit=crop" class="service-image" alt="Confinement">
-                <div class="service-content">
-                    <h3>7. Haute Quarantaine</h3>
-                    <p>Protocoles d'isolation stricts pour anomalies instables ou matériaux non-identifiés.</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- FIN DE LA SECTION TEMPORAIRE -->
 </section>
 
 <!-- SECTION PERSONNEL & EFFECTIFS -->
 <section id="personnel" class="expertise-section" style="background: white;">
-    <h2 style="color: var(--scp-navy); font-size: 2.2rem;">Registre du Personnel</h2>
-    <p>Liste des cadres et agents accrédités en service actif.</p>
-    
-    <table class="personnel-table">
-        <thead>
-            <<!-- NIVEAU 5 : Haut Commandement (Top Secret) -->
-<tr>
-    <td><strong>[Jhon Livra / 01 - luckytea]</strong></td>
-    <td>directeur (Niv. 5)</td>
-    <td>[Direction Centrale]</td>
-</tr>
-    <td><strong>[Jack Livra / 02 - humain34]</strong></td>
-    <td>Général (Niv. 5)</td>
-    <td>[À Définir - ex: État-Major]</td>
-</tr>
-<tr>
-    <td><strong>[Miro Livra / 03 - ghost-tea]</strong></td>
-    <td>Colonel (Niv. 5)</td>
-    <td>[À Définir - ex: Direction Centrale]</td>
-</tr>
+    <h2 class="reveal" style="color: var(--scp-navy); font-size: 2.2rem;">Registre du Personnel</h2>
+    <p class="reveal">Liste des cadres et agents accrédités en service actif.</p>
 
-<!-- NIVEAU 4 : Officiers Supérieurs (Secret) -->
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Lieutenant-Colonel (Niv. 4)</td>
-    <td>[À Définir - ex: Toutes sections]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Commandant (Niv. 4)</td>
-    <td>[À Définir - ex: Sécurité Tactique]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Capitaine (Niv. 4)</td>
-    <td>[À Définir - ex: Hazmat / Médical]</td>
-</tr>
+    <div class="table-wrap reveal">
+        <table class="personnel-table">
+            <thead>
+                <tr>
+                    <th>Agent</th>
+                    <th>Grade</th>
+                    <th>Affectation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- NIVEAU 5 : Haut Commandement (Top Secret) -->
+                <tr>
+                    <td><strong>[Jhon Livra / 01 - luckytea]</strong></td>
+                    <td><span class="rank-pill rank-5">Directeur (Niv. 5)</span></td>
+                    <td>[Direction Centrale]</td>
+                </tr>
+                <tr>
+                    <td><strong>[Jack Livra / 02 - humain34]</strong></td>
+                    <td><span class="rank-pill rank-5">Général (Niv. 5)</span></td>
+                    <td>[À Définir - ex: État-Major]</td>
+                </tr>
+                <tr>
+                    <td><strong>[Miro Livra / 03 - ghost-tea]</strong></td>
+                    <td><span class="rank-pill rank-5">Colonel (Niv. 5)</span></td>
+                    <td>[À Définir - ex: Direction Centrale]</td>
+                </tr>
 
-<!-- NIVEAU 3 : Officiers Subalternes & Sous-Officiers Supérieurs (Confidentiel) -->
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Lieutenant (Niv. 3)</td>
-    <td>[À Définir - ex: Logistique Sécurisée]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Sous-Lieutenant (Niv. 3)</td>
-    <td>[À Définir - ex: Protection Numérique]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Adjudant-Chef (Niv. 3)</td>
-    <td>[À Définir - ex: Toutes sections]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Adjudant (Niv. 3)</td>
-    <td>[À Définir - ex: Toutes sections]</td>
-</tr>
+                <!-- NIVEAU 4 : Officiers Supérieurs (Secret) -->
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-4">Lieutenant-Colonel (Niv. 4)</span></td>
+                    <td>[À Définir - ex: Toutes sections]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-4">Commandant (Niv. 4)</span></td>
+                    <td>[À Définir - ex: Sécurité Tactique]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-4">Capitaine (Niv. 4)</span></td>
+                    <td>[À Définir - ex: Hazmat / Médical]</td>
+                </tr>
 
-<!-- NIVEAU 2 : Sous-Officiers (Standard) -->
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Sergent-Chef (Niv. 2)</td>
-    <td>[À Définir - ex: Sécurité Tactique]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Sergent (Niv. 2)</td>
-    <td>[À Définir - ex: Hazmat / Médical]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Caporal-Chef (Niv. 2)</td>
-    <td>[À Définir - ex: Logistique Sécurisée]</td>
-</tr>
+                <!-- NIVEAU 3 : Officiers Subalternes & Sous-Officiers Supérieurs (Confidentiel) -->
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-3">Lieutenant (Niv. 3)</span></td>
+                    <td>[À Définir - ex: Logistique Sécurisée]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-3">Sous-Lieutenant (Niv. 3)</span></td>
+                    <td>[À Définir - ex: Protection Numérique]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-3">Adjudant-Chef (Niv. 3)</span></td>
+                    <td>[À Définir - ex: Toutes sections]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-3">Adjudant (Niv. 3)</span></td>
+                    <td>[À Définir - ex: Toutes sections]</td>
+                </tr>
 
-<!-- NIVEAU 1 : Militaires du Rang (Restreint) -->
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Caporal (Niv. 1)</td>
-    <td>[À Définir - ex: Protection Numérique]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Soldat de 1ère Classe (Niv. 1)</td>
-    <td>[À Définir - ex: Sécurité Tactique]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Soldat (Niv. 1)</td>
-    <td>[À Définir - ex: Toutes sections]</td>
-</tr>
-<tr>
-    <td><strong>[À Définir]</strong></td>
-    <td>Recrue (Niv. 1)</td>
-    <td>[En Formation]</td>
-</tr>
-            <!-- Ajouter plus de lignes selon les besoins du RP -->
-        </tbody>
-    </table>
-</section>
+                <!-- NIVEAU 2 : Sous-Officiers (Standard) -->
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-2">Sergent-Chef (Niv. 2)</span></td>
+                    <td>[À Définir - ex: Sécurité Tactique]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-2">Sergent (Niv. 2)</span></td>
+                    <td>[À Définir - ex: Hazmat / Médical]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-2">Caporal-Chef (Niv. 2)</span></td>
+                    <td>[À Définir - ex: Logistique Sécurisée]</td>
+                </tr>
 
-<!-- SECTION OPÉRATIONS : MAPPING, VÉHICULES, VÊTEMENTS -->
-<section id="operations" class="operations-container">
-    <h2>Logistique Opérationnelle et Équipements</h2>
-    
-    <!-- MAPPING -->
-    <div class="operations-block">
-        <h3>📍 Infrastructures et Mapping</h3>
-        <p>Le siège actuel de nos opérations scientifiques et tactiques est situé au sein du complexe <strong>Humane Labs</strong>, garantissant un environnement isolé et contrôlé.</p>
-        <p><em>Note de développement interne : Un déploiement vers des installations souterraines (Intérieurs customisés) est prévu dans une phase future pour répondre à nos besoins d'expansion.</em></p>
-    </div>
-
-    <!-- VÉHICULES -->
-    <div class="operations-block">
-        <h3>🚓 Flotte de Véhicules Motorisés</h3>
-        <p>Notre parc de véhicules est adapté à tous les terrains et scénarios de crise. L'immatriculation opérationnelle actuelle s'étend de <strong>SCP-1</strong> à <strong>SCP-??</strong> (sous réserve de modifications en cours de service).</p>
-        
-        <div class="vehicle-grid">
-            <div class="vehicle-card">
-                <div class="vehicle-placeholder">Photo en cours d'acquisition...</div>
-                <div class="vehicle-name">SCP-1</div>
-                <p style="font-size: 0.8rem; color: #666;">Véhicule de Commandement</p>
-            </div>
-            <div class="vehicle-card">
-                <div class="vehicle-placeholder">Photo en cours d'acquisition...</div>
-                <div class="vehicle-name">SCP-2</div>
-                <p style="font-size: 0.8rem; color: #666;">Fourgon Blindé Logistique</p>
-            </div>
-            <div class="vehicle-card">
-                <div class="vehicle-placeholder">Photo en cours d'acquisition...</div>
-                <div class="vehicle-name">SCP-3</div>
-                <p style="font-size: 0.8rem; color: #666;">Unité d'Intervention Hazmat</p>
-            </div>
-            <div class="vehicle-card">
-                <div class="vehicle-placeholder">Photo en cours d'acquisition...</div>
-                <div class="vehicle-name">SCP-??</div>
-                <p style="font-size: 0.8rem; color: #666;">Affectation en attente</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- UNIFORMES / VIDÉO -->
-    <div class="operations-block">
-        <h3>🦺 Uniformes et Dotations Tactiques</h3>
-        <p>Afin d'assurer la protection optimale de nos employés face aux risques balistiques, biologiques ou radiologiques, la fondation S.C.P. fournit un équipement de pointe. Consultez la vidéo ci-dessous pour un aperçu de nos uniformes officiels :</p>
-        
-        <div class="video-wrapper">
-            <!-- Remplacement du lien standard par un lien d'intégration (embed) -->
-            <iframe src="https://www.youtube.com/embed/0iQSN-iZnTw" title="Uniformes S.C.P." allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    </div>
-
-</section>
-<!-- SECTION : PROTOCOLES D'OPÉRATIONS SPÉCIALES (CLANDESTINES) -->
-<section id="operations-speciales" style="padding: 80px 10%; background: #050d1a; color: #d1d1d1; border-top: 5px solid var(--scp-red);">
-    <div style="max-width: 900px; margin: 0 auto;">
-        <h2 style="color: var(--scp-red); text-align: center; text-transform: uppercase; letter-spacing: 3px; font-size: 2rem;">Protocole : Opérations Spéciales (Black Ops)</h2>
-        <p style="text-align: center; font-style: italic;">Document classé NIVEAU 4 - Accès restreint aux agents certifiés uniquement.</p>
-        
-        <div style="margin-top: 40px; background: #0a192f; padding: 30px; border-radius: 8px; border-left: 5px solid var(--scp-red);">
-            <h3 style="color: white; margin-top: 0;">Objectif de la Cellule</h3>
-            <p>La cellule "Opérations Spéciales" gère les contrats hors-cadre légal. Ces missions ne doivent laisser aucune trace officielle. L'utilisation du matériel de la S.C.P. est autorisée sous réserve d'une falsification préalable des registres de mission.</p>
-
-            <h3 style="color: white; margin-top: 20px;">Types de Mandats Clandestins</h3>
-            <ul style="line-height: 2;">
-                <li><strong>Convoyage à Haut Risque (Mercenariat) :</strong> Transport de fonds ou de marchandises illicites sous couverture de "convoi sécurisé".</li>
-                <li><strong>Audit Musclé (Braquages) :</strong> Infiltration et saisie d'actifs (bancaires ou privés) pour compte tiers. Utilisation de la force tactique requise.</li>
-                <li><strong>Gestion de Crise "Souterraine" :</strong> Élimination d'obstacles opérationnels ou récupération forcée d'individus sans intervention des autorités civiles.</li>
-                <li><strong>Contre-Espionnage Industriel :</strong> Infiltration numérique ou physique pour récupérer des données propriétaires de la concurrence.</li>
-            </ul>
-
-            <h3 style="color: white; margin-top: 20px;">Règle d'Or (Protocole de Couverture)</h3>
-            <p style="background: #112240; padding: 15px; border-radius: 4px; border: 1px solid #333;">
-                En cas d'interception par les autorités, le protocole est le suivant : 
-                <strong>Affirmer la légalité de l'opération, présenter les contrats falsifiés, et invoquer le secret défense. Ne jamais avouer l'appartenance à la cellule clandestine.</strong>
-            </p>
-        </div>
+                <!-- NIVEAU 1 : Militaires du Rang (Restreint) -->
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-1">Caporal (Niv. 1)</span></td>
+                    <td>[À Définir - ex: Protection Numérique]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-1">Soldat de 1ère Classe (Niv. 1)</span></td>
+                    <td>[À Définir - ex: Sécurité Tactique]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-1">Soldat (Niv. 1)</span></td>
+                    <td>[À Définir - ex: Toutes sections]</td>
+                </tr>
+                <tr>
+                    <td><strong>[À Définir]</strong></td>
+                    <td><span class="rank-pill rank-1">Recrue (Niv. 1)</span></td>
+                    <td>[En Formation]</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </section>
+
 <section id="ethique" class="about">
-    <div class="about-text">
+    <div class="about-text reveal">
         <h2>Gouvernance et Responsabilité</h2>
         <p>
             Nos interventions suivent des protocoles internationaux stricts garantissant une <strong>transparence opérationnelle absolue</strong> envers nos partenaires gouvernementaux.
         </p>
         <p>
-            Le <span class="highlight">Département de Conformité</span> supervise chaque mission pour s'assurer du respect des normes éthiques, agissant comme couverture parfaite pour sécuriser le monde à l'insu du public.
+            Le <span class="highlight">Département de Conformité</span> supervise chaque mission pour s'assurer du respect des normes éthiques et maintenir la confiance de nos partenaires gouvernementaux et du public.
         </p>
     </div>
-    <div class="about-image">
-        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1000&auto=format&fit=crop" alt="Laboratoire Haute Sécurité" style="max-width: 100%; border-radius: 8px;">
+    <div class="about-visual tech-panel hud-frame reveal">
+        <div class="about-seal">
+            <svg viewBox="0 0 24 24" width="120" height="120" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 5l1.8 3.6 4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4-2.9-2.8 4-.6z"/></svg>
+        </div>
+        <div class="classified-stamp">Niveau 4 — Confidentiel</div>
     </div>
 </section>
 
 <footer id="contact">
     <div class="footer-grid">
         <div>
-            <h4>Le Groupe S.C.P.</h4>
+            <h4>
+                <img src="https://www.nicepng.com/png/full/224-2249471_scp-logo-png.png" alt="Logo SCP" class="footer-logo">
+                Le Groupe S.C.P.
+            </h4>
             <p>Prestataire de services de sécurité globale agissant sous contrats gouvernementaux spécialisés. Notre priorité est la résilience collective.</p>
         </div>
         <div>
@@ -735,8 +1171,207 @@
         &copy; 2026 S.C.P. | Security & Crisis Prevention - Division Communication Corporate. <br>
         <em>"La sécurité est une vigilance de chaque instant."</em>
         <p class="warning-text">CONFIDENTIALITÉ : L'accès à ce site est surveillé. Les protocoles de sécurité des données sont actifs. Aucune anomalie détectée.</p>
+        <p style="margin-top: 15px; font-size: 0.7rem; opacity: 0.7;">Ceci est un site fictif créé dans le cadre d'un serveur de roleplay FiveM. Toute ressemblance avec une organisation, un événement ou une personne réelle est purement fortuite.</p>
     </div>
 </footer>
+
+<div class="modal-overlay" id="serviceModal">
+    <div class="modal-box">
+        <button class="modal-close" id="modalClose" aria-label="Fermer">&times;</button>
+        <div class="modal-media tech-panel hud-frame" id="modalMedia"></div>
+        <div class="modal-body">
+            <span class="modal-tag" id="modalTag"></span>
+            <h2 id="modalTitle"></h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const serviceDetails = [
+        {
+            title: "1. Logistique Sécurisée",
+            tag: "Niveau 2 — Accès Restreint",
+            icon: `<svg viewBox="0 0 24 24" width="90" height="90" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="10"/><path d="M15 10h4l3 3v3h-7z"/><circle cx="6" cy="19" r="1.8"/><circle cx="17.5" cy="19" r="1.8"/></svg>`,
+            content: `
+                <p>Notre division logistique assure le transport de fonds, matériaux sensibles et actifs critiques via une flotte de véhicules blindés certifiés, sous escorte armée si nécessaire.</p>
+                <ul>
+                    <li>Suivi GPS en temps réel et chaîne de contrôle documentée de bout en bout</li>
+                    <li>Chauffeurs formés à la conduite évasive et aux protocoles anti-embuscade</li>
+                    <li>Couverture assurantielle complète sur l'ensemble des trajets</li>
+                    <li>Partenariats établis avec institutions financières et sites industriels</li>
+                </ul>
+                <p>Chaque mission fait l'objet d'un plan de route validé et d'un point de contrôle central actif 24/7.</p>
+            `
+        },
+        {
+            title: "2. Epsilon-9 « Immuno-Suppressants »",
+            tag: "Niveau 3 — Confidentiel",
+            icon: `<svg viewBox="0 0 24 24" width="90" height="90" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6"/><path d="M10 2v6.5L4.5 18a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 8.5V2"/><path d="M7.5 15h9"/></svg>`,
+            content: `
+                <p>Sur le modèle des agences de type CDC, notre division Hazmat intervient sur tout risque biologique, chimique ou radiologique nécessitant un confinement rapide.</p>
+                <ul>
+                    <li>Laboratoires mobiles déployables en moins de 2 heures</li>
+                    <li>Équipes de décontamination et combinaisons NRBC de niveau 4</li>
+                    <li>Protocoles de mise en quarantaine coordonnés avec les autorités sanitaires</li>
+                    <li>Réponse médicale d'urgence intégrée sur site</li>
+                </ul>
+            `
+        },
+        {
+            title: "3. Mu-4 « Debuggers »",
+            tag: "Niveau 2 — Confidentiel",
+            icon: `<svg viewBox="0 0 24 24" width="90" height="90" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.3 11V9.3a1.7 1.7 0 0 1 3.4 0V11"/></svg>`,
+            content: `
+                <p>Notre centre opérationnel de cybersécurité (SOC) surveille en continu l'intégrité des systèmes et données de nos partenaires.</p>
+                <ul>
+                    <li>Surveillance et détection d'intrusion 24/7</li>
+                    <li>Tests d'intrusion et audits de vulnérabilité réguliers</li>
+                    <li>Infrastructure de communication chiffrée de bout en bout</li>
+                    <li>Cellule de réponse à incident déployable à distance</li>
+                </ul>
+            `
+        },
+        {
+            title: "4. Nu-7 « Hammer Down »",
+            tag: "Niveau 1 — Standard",
+            icon: `<svg viewBox="0 0 24 24" width="90" height="90" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-3 3-4-4z"/><path d="M14 6L3 17l3 3 11-11z"/></svg>`,
+            content: `
+                <p>Nos agents assurent la protection rapprochée de personnalités et la sécurisation de sites sensibles, publics comme privés.</p>
+                <ul>
+                    <li>Protection rapprochée VIP et détails exécutifs</li>
+                    <li>Sécurisation périmétrique et contrôle d'accès</li>
+                    <li>Sécurité événementielle et gestion de foule</li>
+                    <li>Agents sélectionnés et formés selon nos standards internes</li>
+                </ul>
+            `
+        },
+        {
+            title: "5. Réhabilitation Comportementale",
+            tag: "Niveau 5 — Confidentiel Administratif",
+            icon: `<svg viewBox="0 0 24 24" width="90" height="90" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="15" r="3.5"/><circle cx="17.5" cy="15" r="3.5"/><path d="M6.5 11.5V7a1.5 1.5 0 0 1 1.5-1.5h8A1.5 1.5 0 0 1 17.5 7v4.5"/></svg>`,
+            content: `
+                <p>Dans le cadre d'un partenariat public-privé avec l'administration pénitentiaire, la fondation S.C.P. exploite un établissement de détention à sécurité renforcée dédié à la <strong>réhabilitation comportementale</strong> de détenus condamnés à de longues peines.</p>
+                <p>Les détenus volontaires sont intégrés à notre <span class="highlight">Programme de Réinsertion par la Recherche Appliquée</span>, désignés en interne sous l'appellation <strong>Classe D</strong> pour des raisons de confidentialité administrative. En échange de leur participation à des protocoles supervisés (tests de matériaux, procédures de sécurité, essais cliniques encadrés), ils bénéficient d'aménagements de peine et d'un suivi médical continu.</p>
+                <p>Chaque protocole est validé au préalable par le <span class="highlight">Département de Conformité</span>, garantissant le respect du cadre légal et du consentement éclairé des participants.</p>
+                <div class="rehab-stats">
+                    <div class="rehab-stat"><h3>Niv. 6</h3><p>Sécurité Carcérale</p></div>
+                    <div class="rehab-stat"><h3>100%</h3><p>Volontariat Déclaré</p></div>
+                    <div class="rehab-stat"><h3>24/7</h3><p>Suivi Médical</p></div>
+                </div>
+            `
+        },
+        {
+            title: "6. Iota-10",
+            tag: "Niveau 3 — Confidentiel",
+            icon: `<svg viewBox="0 0 24 24" width="90" height="90" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>`,
+            content: `
+                <p>Notre cellule de renseignement combine analyse de données massives et surveillance ciblée pour anticiper les menaces avant qu'elles ne se matérialisent.</p>
+                <ul>
+                    <li>Analyse de sources ouvertes et surveillance de signaux faibles</li>
+                    <li>Modélisation prédictive des risques et menaces asymétriques</li>
+                    <li>Réseau de surveillance en temps réel</li>
+                    <li>Rapports d'évaluation stratégique remis aux clients concernés</li>
+                </ul>
+            `
+        },
+        {
+            title: "7. Epsilon-11 « Nine-Tailed Fox »",
+            tag: "Niveau 2 — Confidentiel",
+            icon: `<svg viewBox="0 0 24 24" width="90" height="90" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M12 8l1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4z"/></svg>`,
+            content: `
+                <p>Notre force d'intervention principale, déployée en priorité sur l'ensemble de nos sites stratégiques pour la protection du personnel et des infrastructures critiques.</p>
+                <ul>
+                    <li>Réponse rapide généraliste sur tout type d'incident majeur</li>
+                    <li>Sécurisation immédiate des sites en cas de brèche ou d'intrusion</li>
+                    <li>Coordination avec l'ensemble des autres unités spécialisées</li>
+                </ul>
+            `
+        },
+        {
+            title: "8. Sigma-9 « Valkyrie »",
+            tag: "Niveau 4 — Secret",
+            icon: `<svg viewBox="0 0 24 24" width="90" height="90" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c-2 3-5 4-9 3 2 5 6 7 9 8v-2"/><path d="M12 4c2 3 5 4 9 3-2 5-6 7-9 8v-2"/></svg>`,
+            content: `
+                <p>Nos chambres de haute quarantaine assurent l'isolement strict de matériaux ou anomalies non-identifiées présentant un risque incertain.</p>
+                <ul>
+                    <li>Protocoles d'isolation multi-niveaux</li>
+                    <li>Équipes spécialisées dans la manipulation de matériaux non-identifiés</li>
+                    <li>Procédures de gestion de brèche de confinement</li>
+                </ul>
+            `
+        }
+    ];
+
+    // Modal
+    const modal = document.getElementById('serviceModal');
+    const modalMedia = document.getElementById('modalMedia');
+    const modalTag = document.getElementById('modalTag');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+
+    function renderModal(data) {
+        if (!data) return;
+        modalMedia.innerHTML = `<div class="modal-icon">${data.icon}</div>`;
+        modalTag.textContent = data.tag;
+        modalTitle.textContent = data.title;
+        modalContent.innerHTML = data.content;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function openServiceModal(index) {
+        renderModal(serviceDetails[index]);
+    }
+
+    function closeServiceModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('#expertise .service-card').forEach(card => {
+        card.addEventListener('click', () => openServiceModal(Number(card.dataset.index)));
+    });
+
+    document.getElementById('modalClose').addEventListener('click', closeServiceModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeServiceModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeServiceModal();
+    });
+
+    // Filtres de catégorie
+    document.querySelectorAll('.filter-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            document.querySelectorAll('#expertise .service-card').forEach(card => {
+                const show = filter === 'all' || card.dataset.category === filter;
+                card.style.display = show ? '' : 'none';
+            });
+        });
+    });
+
+    // Ombre de navigation au scroll
+    const mainNav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        mainNav.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // Apparition au défilement
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
 
 </body>
 </html>
